@@ -5,3 +5,8 @@ export interface Dog {
   created_at: Date;
   updated_at: Date;
 }
+
+export interface CreateDogInput {
+  name: string;
+  breed: string;
+}
