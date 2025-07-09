@@ -1,46 +1,28 @@
 import express, { Request, Response, NextFunction } from "express"; // Import NextFunction for error handling
 import { dogRouter } from "./routes/dogRoutes";
+import { requestLogger } from "./middlewares/requestLogger";
+import { errorHandler } from "./middlewares/errorHandler";
 
 const app = express();
 
 // --- Global Middleware ---
-// For parsing JSON request bodies (important for POST/PUT requests)
+// 1. Request Logger (should be placed early to log all requests)
+app.use(requestLogger);
+
+// 2. Body Parser (essential for handling JSON in requests)
 app.use(express.json());
 
-// --- Request Logging Middleware ---
-// This middleware logs the HTTP method and URL of incoming requests
-// Example of a custom middleware (optional)
-app.use((req: Request, res: Response, next: NextFunction) => {
-  console.log(`Incoming request: ${req.method} ${req.url}`);
-  next(); // Don't forget to call next() to pass control to the next middleware/route handler
+// Example of a basic route (optional, but good for testing root API)
+app.get("/api", (req: Request, res: Response) => {
+  res.send("Hello, world from API root!");
 });
 
 // --- API Routes ---
-// Basic root API route
-app.get("/api", (req: Request, res: Response) => {
-  res.send("Hello, world!");
-});
-
-// Mount dog-related routes under /api/dogs
-// All routes defined in dogRoutes.ts will be prefixed with /api/dogs
+// Mount specific route modules
 app.use("/api/dogs", dogRouter);
 
 // --- Error Handling Middleware ---
-// This is a "catch-all" error handler. It should be the last middleware mounted.
-// It must have 4 parameters: (err, req, res, next)
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  console.error("Global Error Handler:", err.stack); // Log the full error stack for debugging
-
-  // Set a default status code (e.g., 500 Internal Server Error)
-  const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
-  res.status(statusCode);
-
-  // Send a user-friendly error response (avoid exposing sensitive error details in production)
-  res.json({
-    message: err.message,
-    // In development, you might send the stack trace for debugging:
-    stack: process.env.NODE_ENV === "production" ? "🥞" : err.stack,
-  });
-});
+// This must be the LAST middleware mounted, after all routes and other middleware.
+app.use(errorHandler);
 
 export default app; // Export the configured Express application instance
