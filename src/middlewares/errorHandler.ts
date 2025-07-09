@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 
+import { config } from "../config";
+
 // Global error handling middleware.
 // It must have 4 parameters to be recognized as an error handler by Express.
 export const errorHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
@@ -13,6 +15,6 @@ export const errorHandler = (err: Error, req: Request, res: Response, next: Next
   res.json({
     message: err.message,
     // In development, you might send the stack trace for debugging:
-    stack: process.env.NODE_ENV === "production" ? "🥞" : err.stack,
+    stack: config.nodeEnv === "production" ? "🥞" : err.stack,
   });
 };
