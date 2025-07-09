@@ -4,25 +4,35 @@ import { DogService } from "../services/dogService";
 const dogService = new DogService();
 
 export class DogController {
-  getAllDogs(req: Request, res: Response): void {
-    const dogs = dogService.getAllDogs();
-    res.json(dogs);
-  }
-
-  getDogById(req: Request, res: Response): void {
-    const { id } = req.params;
-    const matchingDog = dogService.getDogById(id);
-
-    if (matchingDog) {
-      res.json(matchingDog);
-    } else {
-      // You might want a more sophisticated error handler here, e.g., from utils/responseHandler.ts
-      res.status(404).json({ error: "Dog not found" });
+  async getAllDogs(req: Request, res: Response): Promise<void> {
+    // Mark as async
+    try {
+      const dogs = await dogService.getAllDogs(); // Await the service call
+      res.json(dogs);
+    } catch (error) {
+      // Pass error to the global error handler
+      res.status(500).json({ message: "Failed to fetch dogs." });
+      // Or, if you want to use next(error) for the global error handler:
+      // next(error);
     }
   }
 
-  // In a real application, you'd have methods like:
-  // createDog(req: Request, res: Response): void
-  // updateDog(req: Request, res: Response): void
-  // deleteDog(req: Request, res: Response): void
+  async getDogById(req: Request, res: Response): Promise<void> {
+    // Mark as async
+    try {
+      const { id } = req.params;
+      const matchingDog = await dogService.getDogById(id); // Await the service call
+
+      if (matchingDog) {
+        res.json(matchingDog);
+      } else {
+        res.status(404).json({ error: "Dog not found" });
+      }
+    } catch (error) {
+      // Pass error to the global error handler
+      res.status(500).json({ message: "Failed to fetch dog by ID." });
+      // Or, if you want to use next(error) for the global error handler:
+      // next(error);
+    }
+  }
 }

@@ -1,24 +1,21 @@
+import { db } from "../drizzle/db";
+import { dogsTable } from "../drizzle/schema";
+import { eq } from "drizzle-orm";
+
 import { Dog } from "../models/Dog";
 
-const dogsData: Dog[] = [
-  { id: "112ca4da", created_at: "2023-01-01T00:00:00Z", breed: "Golden Retriever", name: "Buddy" },
-  { id: "19c8cbc4", created_at: "2023-01-02T00:00:00Z", breed: "Beagle", name: "Max" },
-  { id: "21e4ec91", created_at: "2023-01-03T00:00:00Z", breed: "Bulldog", name: "Bella" },
-  { id: "5b762bda", created_at: "2023-01-04T00:00:00Z", breed: "Poodle", name: "Lucy" },
-  { id: "7b18e100", created_at: "2023-01-05T00:00:00Z", breed: "Labrador", name: "Charlie" },
-];
-
 export class DogService {
-  getAllDogs(): Dog[] {
-    return dogsData;
+  async getAllDogs(): Promise<Dog[]> {
+    // Select all columns from the 'dogs' table
+    const dogs = await db.select().from(dogsTable);
+
+    return dogs;
   }
 
-  getDogById(id: string): Dog | undefined {
-    return dogsData.find((dog) => dog.id === id);
+  async getDogById(id: string): Promise<Dog | undefined> {
+    // Select all columns from the 'dogs' table where id equals the given id
+    const [matchingDog] = await db.select().from(dogsTable).where(eq(dogsTable.id, id));
+    // Drizzle returns an array, so we take the first element if it exists
+    return matchingDog;
   }
-
-  // In a real application, you'd have methods like:
-  // createDog(newDog: Dog): Dog
-  // updateDog(id: number, updatedDog: Partial<Dog>): Dog
-  // deleteDog(id: number): boolean
 }
