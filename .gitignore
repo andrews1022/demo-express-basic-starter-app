@@ -17,7 +17,7 @@ ehthumbs_vista.db
 # Environment variables
 .env
 .env.*
-!.env.example # Keep example for team
+!.env.example
 
 # IDEs and editors
 .vscode/
