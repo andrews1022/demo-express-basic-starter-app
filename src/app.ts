@@ -1,8 +1,8 @@
 import express, { Request, Response } from "express"; // Import NextFunction for error handling
 
-import { errorHandler } from "./middlewares/errorHandler";
-import { requestLogger } from "./middlewares/requestLogger";
-import { dogRouter } from "./routes/dogRouter";
+import { errorHandler } from "@/middlewares/errorHandler"; // Import global error handler
+import { requestLogger } from "@/middlewares/requestLogger";
+import { dogRouter } from "@/routes/dogRouter";
 
 const app = express();
 

@@ -1,8 +1,8 @@
 import { eq } from "drizzle-orm";
 
-import { db } from "../drizzle/db";
-import { dogsTable } from "../drizzle/schema";
-import type { CreateDogInput, Dog } from "../types/dogs";
+import { db } from "@/drizzle/db";
+import { dogsTable } from "@/drizzle/schema";
+import type { CreateDogInput, Dog } from "@/types/dogs";
 
 export class DogService {
   async getAllDogs(): Promise<Dog[]> {

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 
-import { config } from "../config";
+import { config } from "@/config";
 
 // Global error handling middleware.
 // It must have 4 parameters to be recognized as an error handler by Express.

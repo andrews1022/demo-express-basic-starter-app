@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 
-import type { Config } from "../types/config";
+import type { Config } from "@/types/config";
 
 dotenv.config();
 

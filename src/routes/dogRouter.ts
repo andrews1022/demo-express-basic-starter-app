@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { DogController } from "../controllers/dogController";
+import { DogController } from "@/controllers/dogController";
 
 const dogRouter = Router();
 const dogController = new DogController();
