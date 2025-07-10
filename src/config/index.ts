@@ -1,12 +1,8 @@
 import dotenv from "dotenv";
 
-dotenv.config();
+import type { Config } from "../types/config";
 
-interface Config {
-  dbUrl: string;
-  nodeEnv: string;
-  port: number;
-}
+dotenv.config();
 
 export const config: Config = {
   dbUrl: process.env.DB_URL || "",

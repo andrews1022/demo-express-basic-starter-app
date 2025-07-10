@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
+
 import { DogService } from "../services/dogService";
-import { CreateDogInput } from "../models/Dog";
+import type { CreateDogInput } from "../types/dogs";
 
 const dogService = new DogService();
 

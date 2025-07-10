@@ -1,12 +1,12 @@
-export interface Dog {
+export type Dog = {
   id: string;
   name: string;
   breed: string;
   created_at: Date;
   updated_at: Date;
-}
+};
 
-export interface CreateDogInput {
+export type CreateDogInput = {
   name: string;
   breed: string;
-}
+};
